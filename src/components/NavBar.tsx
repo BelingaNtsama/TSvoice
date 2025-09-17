@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/components/NavBar.tsx
 import { MenuSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { ScrollTrigger } from 'gsap/all'; // ScrollSmoother n'est plus importé ici directement
 import { Link, useLocation } from 'react-router'; // Importer useLocation et Link de react-router-dom
-import { initScrollSmoother, scrollToSection} from '../utils/ScrollUtils'; // Importer les utilitaires
+import { initScrollSmoother, scrollToSection} from '../utils/scrollUtils'; // Importer les utilitaires
 
 // Pas besoin de registerPlugin ici car déjà fait dans scrollUtils
 
@@ -57,7 +58,7 @@ const NavBar = () => {
     const hash = location.hash.substring(1); // Supprimer le '#'
     if (hash && Tab_Ancrages.some((ancrage) => ancrage.id === hash)) {
       // S'assurer que le smoother est initialisé avant de tenter de scroller
-      const smoother = initScrollSmoother();
+      initScrollSmoother();
       // Un léger délai peut être nécessaire pour que tous les éléments soient rendus
       setTimeout(() => scrollToSection(hash), 100);
     }

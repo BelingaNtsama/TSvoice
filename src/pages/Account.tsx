@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../utils/context'; // Assurez-vous d'utiliser le store Zustand
 import { useNavigate } from 'react-router';
-import { User, CreditCard, Settings, LogOut, Crown, Zap, Calendar, Check } from 'lucide-react';
+import { User, CreditCard,  LogOut, Crown, Zap, Calendar, Check } from 'lucide-react';
 import type { PlanType } from '../utils/types'; // Assurez-vous que le chemin est correct
 
 const Account = () => {

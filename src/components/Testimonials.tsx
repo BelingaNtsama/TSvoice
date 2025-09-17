@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -54,7 +54,7 @@ export default function TestimonialCarousel() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: "easeInOut",
+        ease: easeInOut,
       },
     },
     exit: {
@@ -62,7 +62,7 @@ export default function TestimonialCarousel() {
       opacity: 0,
       transition: {
         duration: 0.8,
-        ease: "easeInOut",
+        ease: easeInOut,
       },
     },
   };

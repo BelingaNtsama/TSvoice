@@ -10,7 +10,7 @@ import SuccessStep from '../components/shared/SuccessStep';
 const Auth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { login, register, isLoading } = useAuthStore();
+  const { login, register} = useAuthStore();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const initialTabFromParams = searchParams.get('tab') || 'login';

@@ -1,4 +1,21 @@
-export const VOICES = {
+export type Voice = {
+  id: string;
+  name: string;
+  gender: 'F' | 'M';
+};
+
+export type LanguageKey =
+  | '🇺🇸 American English'
+  | '🇬🇧 British English'
+  | '🇯🇵 Japanese'
+  | '🇨🇳 Mandarin Chinese'
+  | '🇪🇸 Spanish'
+  | '🇫🇷 French'
+  | '🇮🇳 Hindi'
+  | '🇮🇹 Italian'
+  | '🇧🇷 Portuguese';
+
+export const VOICES: Record<LanguageKey, Voice[]> = {
   '🇺🇸 American English': [
     { id: 'af_bella', name: 'Bella', gender: 'F' },
     { id: 'af_nova', name: 'Nova', gender: 'F' },
@@ -70,7 +87,7 @@ export const VOICES = {
   ],
 };
 
-export const SAMPLE_TEXTS = {
+export const SAMPLE_TEXTS: Record<LanguageKey, string> = {
   '🇺🇸 American English':
     'Hello! Welcome to our advanced text-to-speech platform. Experience the future of AI-generated voices with crystal-clear quality and natural intonation.',
   '🇬🇧 British English':

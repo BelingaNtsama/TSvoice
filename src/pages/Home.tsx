@@ -1,5 +1,3 @@
-'use client';
-
 import NavBar from '../components/NavBar';
 import Hero from '../components/Hero';
 import TestimonialCarousel from '../components/Testimonials';
@@ -8,8 +6,8 @@ import Footer from '../components/Footer';
 
 import { PlusCircle, EqualApproximately, PercentCircle, Plus, ArrowBigRight } from 'lucide-react';
 
-import { motion, useMotionValue, useTransform, animate } from 'motion/react';
-import { useEffect, useRef } from 'react';
+import { motion, useMotionValue, useTransform, animate, easeInOut } from 'motion/react';
+import { useEffect, useRef, type JSX } from 'react';
 import FAQSection from '../components/FAQ';
 import { faqItems } from '../utils/const';
 import { Link } from 'react-router';
@@ -62,7 +60,7 @@ const fadeUp = {
     transition: {
       delay: i * 0.2,
       duration: 0.6,
-      ease: 'easeOut',
+      ease: easeInOut,
     },
   }),
 };

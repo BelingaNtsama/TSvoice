@@ -22,6 +22,13 @@ import { stripMarkdown } from '../utils/markdown';
 import { faqItems2 } from '../utils/const';
 import FAQSection from '../components/FAQ';
 
+// Define the Voice type if not already imported
+interface Voice {
+  id: string;
+  name: string;
+  // Add other properties if needed
+}
+
 const DemoPage = () => {
   const [text, setText] = useState('');
   const [languageInput, setLanguageInput] = useState('🇫🇷 French'); // Pour l'input datalist
@@ -31,12 +38,12 @@ const DemoPage = () => {
   const [volume, setVolume] = useState(0.8);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioUrl, setAudioUrl] = useState(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [tab, setTab] = useState('editor');
 
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Mettre à jour la langue sélectionnée basée sur l'input du datalist
   useEffect(() => {
@@ -48,7 +55,7 @@ const DemoPage = () => {
 
   useEffect(() => {
     // Initialiser la voix sélectionnée lorsque la langue change
-    const voicesForLanguage = VOICES[selectedLanguage];
+    const voicesForLanguage = VOICES[selectedLanguage as keyof typeof VOICES];
     if (voicesForLanguage && voicesForLanguage.length > 0) {
       setSelectedVoice(voicesForLanguage[0].id);
     } else {
@@ -66,7 +73,7 @@ const DemoPage = () => {
   }, [volume, speed, audioUrl]); // Re-appliquer si l'audio change
 
   const loadSampleText = () => {
-    const sampleText = SAMPLE_TEXTS[selectedLanguage];
+    const sampleText = SAMPLE_TEXTS[selectedLanguage as keyof typeof SAMPLE_TEXTS];
     if (sampleText) {
       setText(sampleText);
     }
@@ -168,13 +175,17 @@ const DemoPage = () => {
     toast.info("Téléchargement de l'audio en cours...");
   };
 
-  const formatTime = (time) => {
+  interface FormatTime {
+    (time: number): string;
+  }
+
+  const formatTime: FormatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  const availableVoices = useMemo(() => VOICES[selectedLanguage] || [], [selectedLanguage]);
+  const availableVoices = useMemo(() => VOICES[selectedLanguage as keyof typeof VOICES] || [], [selectedLanguage]);
 
   return (
     <div className="bg-base-200 min-h-screen">
@@ -352,7 +363,7 @@ const DemoPage = () => {
                             !availableVoices.length ? 'btn-disabled' : ''
                           }`}
                         >
-                          {availableVoices.find((v) => v.id === selectedVoice)?.name ||
+                            {availableVoices.find((v: Voice) => v.id === selectedVoice)?.name ||
                             'Sélectionner une voix'}
                           <ChevronDown className="h-4 w-4" />
                         </div>
