@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// src/components/NavBar.tsx
 import { MenuSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { ScrollTrigger } from 'gsap/all'; // ScrollSmoother n'est plus importé ici directement
 import { Link, useLocation } from 'react-router'; // Importer useLocation et Link de react-router-dom
-import { initScrollSmoother, scrollToSection} from '../utils/scrollUtils'; // Importer les utilitaires
-
-// Pas besoin de registerPlugin ici car déjà fait dans scrollUtils
+import { initScrollSmoother, scrollToSection } from '../utils/scrollUtils'; // Importer les utilitaires
 
 const Tab_Ancrages = [
   { id: 'fonctionnalites', label: 'Fonctionnalités' },
@@ -28,6 +24,7 @@ const NavBar = () => {
 
     const handleScroll = () => {
       setScrolled(window.scrollY >= 100);
+      console.log('scrolled', scrolled);
     };
     window.addEventListener('scroll', handleScroll);
 
@@ -51,6 +48,7 @@ const NavBar = () => {
       // Nous ne tuons pas smootherInstance ici car il est géré globalement
       // killScrollSmoother(); // Appel si vous voulez le tuer quand la NavBar est démontée
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Dépendances vides pour que cela ne s'exécute qu'une fois au montage
 
   // Gérer le scroll vers l'ancre si présente dans l'URL au chargement de la page

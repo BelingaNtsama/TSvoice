@@ -1,6 +1,6 @@
 // src/store/useAuthStore.ts
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware'; // Pour persister l'état
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { toast } from 'sonner';
 import { mockUsers, createMockUser } from '../utils/mockUser';
 import type { User, PlanType } from '../utils/types';
@@ -10,6 +10,7 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string, name: string, plan: PlanType) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
 }
 
@@ -27,60 +28,56 @@ export const useAuthStore = create<AuthState>()(
 
         if (foundUser && password === 'demo123') {
           set({ user: foundUser, isLoading: false });
-          toast({
-            title: 'Connexion réussie',
-            description: `Bienvenue ${foundUser.name} !`,
-          });
+          toast.success(`Bienvenue ${foundUser.name} !`);
           return true;
         }
 
         set({ isLoading: false });
-        toast({
-          title: 'Erreur de connexion',
-          description: 'Email ou mot de passe incorrect',
-          variant: 'destructive',
-        });
+        toast.error('Email ou mot de passe incorrect');
         return false;
       },
 
-      register: async (email, password, name, plan) => {
+      register: async (email: string, password: string, name: string, plan: PlanType) => {
         set({ isLoading: true });
         await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      
         const existingUser = mockUsers.find((u) => u.email === email);
+        console.log(password)
         if (existingUser) {
           set({ isLoading: false });
-          toast({
-            title: "Erreur d'inscription",
-            description: 'Cet email est déjà utilisé',
-            variant: 'destructive',
-          });
+          toast.error('Cet email est déjà utilisé');
           return false;
         }
-
+      
         const newUser = createMockUser(email, name, plan);
         mockUsers.push(newUser);
         set({ user: newUser, isLoading: false });
-        toast({
-          title: 'Inscription réussie',
-          description: `Bienvenue ${newUser.name} ! Votre plan ${plan} est activé.`,
-        });
+        toast.success(`Bienvenue ${newUser.name} ! Votre plan ${plan} est activé.`);
+        return true;
+      },
+
+      loginWithGoogle: async () => {
+        set({ isLoading: true });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        const googleUser = createMockUser('google@user.com', 'Google User', 'gratuit');
+        mockUsers.push(googleUser); // Optionnel si tu veux le stocker
+        set({ user: googleUser, isLoading: false });
+
+        toast.success(`Connecté avec Google : ${googleUser.name}`);
         return true;
       },
 
       logout: () => {
         set({ user: null });
-        toast({
-          title: 'Déconnexion',
-          description: 'À bientôt !',
-        });
+        toast.info('Déconnexion réussie. À bientôt !');
       },
     }),
     {
-      name: 'auth-storage', // Nom unique pour localStorage
+      name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
-      onRehydrateStorage: () => (state) => {
-        // Optionnel: peut être utilisé pour effectuer des actions après la réhydratation
+      onRehydrateStorage: () => () => {
+        // Tu peux afficher un toast ou synchroniser ici si besoin
       },
     }
   )
