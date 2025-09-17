@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* Déclaration du thème DaisyUI */
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  prefersdark: false;
+  color-scheme: "dark";
+
+  /* Couleurs de base */
+  --color-base-100: oklch(25.33% 0.016 252.42);
+  --color-base-200: oklch(23.26% 0.014 253.1);
+  --color-base-300: oklch(21.15% 0.012 254.09);
+  --color-base-content: oklch(70.807% 0.01 856.847);
+
+  /* Couleurs principales */
+  --color-primary: oklch(43% 0.218 303.724);
+  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-secondary: oklch(51% 0.262 276.966);
+  --color-secondary-content: oklch(96% 0.007 247.896);
+  --color-accent: oklch(69% 0.17 162.48);
+  --color-accent-content: oklch(96% 0.007 247.896);
+
+  /* États et feedback */
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(62% 0.214 259.815);
+  --color-info-content: oklch(96% 0.007 247.896);
+  --color-success: oklch(62% 0.194 149.214);
+  --color-success-content: oklch(96% 0.007 247.896);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(96% 0.059 95.617);
+  --color-error: oklch(63% 0.237 25.331);
+  --color-error-content: oklch(92% 0.013 255.508);
+
+  /* Tokens visuels */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Exposition des tokens à Tailwind */
+@theme {
+  --color-primary: oklch(43% 0.218 303.724);
+  --color-secondary: oklch(51% 0.262 276.966);
+  --color-accent: oklch(69% 0.17 162.48);
+  --color-base-100: oklch(25.33% 0.016 252.42);
+  --color-base-300: oklch(21.15% 0.012 254.09);
+   --shadow-glow: oklch(43% 0.218 303.724 / 0.6); 
+}
+
+/* Utilitaires personnalisés */
+@layer utilities {
+  .text-gradient {
+    background-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-card {
+    background-image: linear-gradient(to right, var(--color-primary), var(--color-base-100));
+  }
+
+  .gradient-accent {
+    background-image: linear-gradient(to right, var(--color-primary), var(--color-accent));
+  }
+
+ .shadow-glow {
+    box-shadow: 0 0 60px var(--shadow-glow);
+  }
+
+  .shadow-card {
+    box-shadow: 20px 20px 12px oklch(0% 0% 0% / 0.15);
+  }
+
+  .rounded-box {
+    border-radius: var(--radius-box);
+  }
+
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-bounce {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
